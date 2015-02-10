@@ -1,5 +1,15 @@
+;; melpa
+(require 'package)
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.org/packages/") t)
+(package-initialize)
+
+;; load packages
 (let ((default-directory "~/.emacs.d/packages/"))
   (normal-top-level-add-subdirs-to-load-path))
+
+;; start up setup
+(setq inhibit-startup-message t)
 
 ;; powerline
 ;;(require 'powerline)
@@ -27,16 +37,12 @@
 (setq web-mode-css-indent-offset 2)
 (setq web-mode-code-indent-offset 2)
 
-;; custom variables
-(custom-set-variables
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(inhibit-startup-screen t)
- '(package-archives (quote (("marmalade" . "https://marmalade-repo.org/packages/") ("gnu" . "http://elpa.gnu.org/packages/")))))
-(custom-set-faces)
-
 ;; store back up files on the temp directory
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
+
+;; neotree
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
