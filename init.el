@@ -1,31 +1,25 @@
-;; melpa
-(require 'package)
-(add-to-list 'package-archives
-	     '("melpa" . "http://melpa.org/packages/") t)
-(package-initialize)
-
 ;; load packages
 (let ((default-directory "~/.emacs.d/packages/"))
   (normal-top-level-add-subdirs-to-load-path))
 
-;; start up setup
-(setq inhibit-startup-message t)
+;; themes
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/emacs-color-theme-solarized")
 
-;; powerline
-;;(require 'powerline)
+;; theme solarized
+(load-theme 'solarized t)
+
+;; custom variables
+(custom-set-variables
+ '(inhibit-startup-screen t)
+ '(package-archives (quote (("marmalade" . "https://marmalade-repo.org/packages/") ("gnu" . "http://elpa.gnu.org/packages/")))))
+(custom-set-faces)
 
 ;; ido mode
 (ido-mode 1)
-
 ;; display them one per line
 (setq ido-separator "\n")
-
 ;; display any item that contains the chars you typed
 (setq ido-enable-flex-matching t)
-
-;; jedi mode
-;; (add-hook 'python-mode-hook 'jedi:setup)
-;; (setq jedi:complete-on-dot t)
 
 ;; webmode
 (require 'web-mode)
