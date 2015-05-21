@@ -24,6 +24,10 @@
 ;; display any item that contains the chars you typed
 (setq ido-enable-flex-matching t)
 
+;; org mod
+(setq org-startup-indented t)
+(setq org-hide-leading-stars t)
+
 ;; webmode
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
