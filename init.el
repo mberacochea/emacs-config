@@ -17,6 +17,9 @@
  '(package-archives (quote (("marmalade" . "https://marmalade-repo.org/packages/") ("gnu" . "http://elpa.gnu.org/packages/")))))
 (custom-set-faces)
 
+;; truncate
+(toggle-truncate-lines)
+
 ;; ido mode
 (ido-mode 1)
 ;; display them one per line
