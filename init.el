@@ -8,6 +8,9 @@
 ;; theme solarized
 (load-theme 'solarized t)
 
+;; editorconf
+(load "editorconfig")
+
 ;; custom variables
 (custom-set-variables
  '(inhibit-startup-screen t)
