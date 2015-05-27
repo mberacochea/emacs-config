@@ -34,12 +34,14 @@
 ;; webmode
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
 ;; webmode identation
 (setq web-mode-markup-indent-offset 2)
 (setq web-mode-css-indent-offset 2)
 (setq web-mode-code-indent-offset 2)
+
+;; js2-mode
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 ;; store back up files on the temp directory
 (setq backup-directory-alist
@@ -55,3 +57,6 @@
 (autoload 'scss-mode "sass-mode")
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 (setq scss-compile-at-save nil)
+
+;; js-doc
+(require 'js-doc)
