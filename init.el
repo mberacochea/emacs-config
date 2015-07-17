@@ -22,6 +22,7 @@
  '(custom-safe-themes
    (quote
     ("31a01668c84d03862a970c471edbd377b2430868eccf5e8a9aec6831f1a0908d" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "1297a022df4228b81bc0436230f211bad168a117282c20ddcba2db8c6a200743" default)))
+ '(edconf-exec-path "/usr/local/Cellar/editorconfig/0.12.0/bin/editorconfig")
  '(frame-background-mode (quote dark))
  '(inhibit-startup-screen t)
  '(package-archives
@@ -45,7 +46,12 @@
 ;; display any item that contains the chars you typed
 (setq ido-enable-flex-matching t)
 
-;; org mod
+;; ignore
+ido-ignore-buffers
+'("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
+     "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
+
+;; orgmode
 (setq org-startup-indented t)
 (setq org-hide-leading-stars t)
 
@@ -78,3 +84,11 @@
 
 ;; js-doc
 (require 'js-doc)
+
+;; mac  key bindings
+(when (eq system-type 'darwin) ;; mac specific settings
+  (setq mac-option-modifier 'alt)
+  (setq mac-command-modifier 'meta)
+  (setq mac-function-modifier 'control)
+  (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
+  )
