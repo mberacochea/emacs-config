@@ -13,6 +13,9 @@
 (load-theme 'solarized t)
 (set-frame-parameter nil 'background-mode 'dark)
 
+;; highlight current line
+(global-hl-line-mode +1)
+
 ;; editorconf
 ;(load "editorconfig")
 
