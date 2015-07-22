@@ -2,39 +2,26 @@
 (let ((default-directory "~/.emacs.d/packages/"))
   (normal-top-level-add-subdirs-to-load-path))
 
+;; elpa
+(let ((default-directory "~/.emacs.d/elpa/"))
+  (normal-top-level-add-subdirs-to-load-path))
+
+;; hide init
+(setq inhibit-startup-message t)
+
 ;; themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/emacs-color-theme-solarized")
 
 ;; theme solarized
 (load-theme 'solarized t)
 (set-frame-parameter nil 'background-mode 'dark)
+(enable-theme 'solarized)
 
-;; editorconf
-(load "editorconfig")
+;; highlight current line
+(global-hl-line-mode +1)
 
-;; custom variables
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (solarized)))
- '(custom-safe-themes
-   (quote
-    ("31a01668c84d03862a970c471edbd377b2430868eccf5e8a9aec6831f1a0908d" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "1297a022df4228b81bc0436230f211bad168a117282c20ddcba2db8c6a200743" default)))
- '(edconf-exec-path "/usr/local/Cellar/editorconfig/0.12.0/bin/editorconfig")
- '(frame-background-mode (quote dark))
- '(inhibit-startup-screen t)
- '(package-archives
-   (quote
-    (("marmalade" . "https://marmalade-repo.org/packages/")
-     ("gnu" . "http://elpa.gnu.org/packages/")))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; better answer
+(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; truncate
 (toggle-truncate-lines)
@@ -55,6 +42,8 @@ ido-ignore-buffers
 (setq org-startup-indented t)
 (setq org-hide-leading-stars t)
 
+;; web struff ;;
+
 ;; webmode
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
@@ -68,22 +57,13 @@ ido-ignore-buffers
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 ;; store back up files on the temp directory
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-
-;; neotree
-(require 'neotree)
-(global-set-key [f8] 'neotree-toggle)
+(setq backup-directory-alist `((".*" . ,"~/.emacs.d/backups")))
+(setq backup-by-copying t)
 
 ;; sass
 (autoload 'scss-mode "sass-mode")
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 (setq scss-compile-at-save nil)
-
-;; js-doc
-(require 'js-doc)
 
 ;; mac  key bindings
 (when (eq system-type 'darwin) ;; mac specific settings
@@ -92,3 +72,33 @@ ido-ignore-buffers
   (setq mac-function-modifier 'control)
   (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
   )
+
+;; neotree
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+
+;; autocomplete
+(require 'auto-complete-config)
+(ac-config-default)
+
+;; editorconfig
+(load "editorconfig")
+(setq edconf-exec-path "/usr/local/bin/editorconfig")
+
+
+;; packages
+;; Marmalade packages
+(require 'package)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
+
+;; install packages if not installed
+(package-initialize)
+(defvar my-packages '(
+                      flycheck
+                      auto-complete
+		      editorconfig
+                      ))
+(dolist (p my-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
