@@ -20,6 +20,10 @@
 ;; highlight current line
 (global-hl-line-mode +1)
 
+;; hide menu and tools bar
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+
 ;; better answer
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -69,7 +73,8 @@ ido-ignore-buffers
 (when (eq system-type 'darwin) ;; mac specific settings
   (setq mac-option-modifier 'alt)
   (setq mac-command-modifier 'meta)
-  (setq mac-function-modifier 'control)
+  (setq ns-function-modifier 'control)
+  ;;(setq mac-function-modifier 'control)
   (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
   )
 
