@@ -6,19 +6,44 @@
 (let ((default-directory "~/.emacs.d/elpa/"))
   (normal-top-level-add-subdirs-to-load-path))
 
+;; packages
+;; Marmalade packages
+(require 'package)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
+
+;; MELPA packages
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(when (< emacs-major-version 24)
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+
+;; install packages if not installed
+(package-initialize)
+(defvar my-packages '(
+                      flycheck
+                      auto-complete
+		      editorconfig
+		      monokai-theme
+                      ))
+(dolist (p my-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
+
 ;; hide init
 (setq inhibit-startup-message t)
 
 ;; themes
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/emacs-color-theme-solarized")
+; (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/emacs-color-theme-solarized")
 
 ;; theme solarized
-(load-theme 'solarized t)
-(set-frame-parameter nil 'background-mode 'dark)
-(enable-theme 'solarized)
+(load-theme 'monokai t)
 
 ;; highlight current line
 (global-hl-line-mode +1)
+
+;; delete selected text on write
+(delete-selection-mode 1)
 
 ;; hide menu and tools bar
 (tool-bar-mode -1)
@@ -37,10 +62,13 @@
 ;; display any item that contains the chars you typed
 (setq ido-enable-flex-matching t)
 
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+
 ;; ignore
-ido-ignore-buffers
+(setq ido-ignore-buffers
 '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
-     "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
+     "^\*compilation" "^\*GTAGS" "^session\.*" "^\*"))
 
 ;; orgmode
 (setq org-startup-indented t)
@@ -69,15 +97,6 @@ ido-ignore-buffers
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 (setq scss-compile-at-save nil)
 
-;; mac  key bindings
-(when (eq system-type 'darwin) ;; mac specific settings
-  (setq mac-option-modifier 'alt)
-  (setq mac-command-modifier 'meta)
-  (setq ns-function-modifier 'control)
-  ;;(setq mac-function-modifier 'control)
-  (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
-  )
-
 ;; neotree
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
@@ -88,22 +107,13 @@ ido-ignore-buffers
 
 ;; editorconfig
 (load "editorconfig")
-(setq edconf-exec-path "/usr/local/bin/editorconfig")
 
-
-;; packages
-;; Marmalade packages
-(require 'package)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
-
-;; install packages if not installed
-(package-initialize)
-(defvar my-packages '(
-                      flycheck
-                      auto-complete
-		      editorconfig
-                      ))
-(dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
+;; mac  key bindings
+(when (eq system-type 'darwin) ;; mac specific settings
+  (setq mac-option-modifier 'alt)
+  (setq mac-command-modifier 'meta)
+  (setq ns-function-modifier 'control)
+  ;;(setq mac-function-modifier 'control)
+  (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
+  (setq edconf-exec-path "/usr/local/bin/editorconfig") ;; editor config exec
+  )
