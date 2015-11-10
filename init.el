@@ -33,9 +33,6 @@
 ;; hide init
 (setq inhibit-startup-message t)
 
-;; themes
-; (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/emacs-color-theme-solarized")
-
 ;; theme solarized
 (load-theme 'monokai t)
 
@@ -57,8 +54,10 @@
 
 ;; ido mode
 (ido-mode 1)
+
 ;; display them one per line
 (setq ido-separator "\n")
+
 ;; display any item that contains the chars you typed
 (setq ido-enable-flex-matching t)
 
@@ -74,12 +73,11 @@
 (setq org-startup-indented t)
 (setq org-hide-leading-stars t)
 
-;; web struff ;;
-
 ;; webmode
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
+
 ;; webmode identation
 (setq web-mode-markup-indent-offset 2)
 (setq web-mode-css-indent-offset 2)
@@ -89,13 +87,16 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 ;; store back up files on the temp directory
-(setq backup-directory-alist `((".*" . ,"~/.emacs.d/backups")))
+(setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 (setq backup-by-copying t)
 
 ;; sass
 (autoload 'scss-mode "sass-mode")
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 (setq scss-compile-at-save nil)
+
+;; git
+(require 'git)
 
 ;; neotree
 (require 'neotree)
@@ -116,4 +117,5 @@
   ;;(setq mac-function-modifier 'control)
   (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
   (setq edconf-exec-path "/usr/local/bin/editorconfig") ;; editor config exec
+  (setq ispell-program-name "/usr/local/Cellar/aspell/0.60.6.1/bin/aspell")
   )
