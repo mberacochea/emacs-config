@@ -25,6 +25,7 @@
                       auto-complete
 		      editorconfig
 		      monokai-theme
+		      rust-mode
                       ))
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -41,6 +42,9 @@
 
 ;; delete selected text on write
 (delete-selection-mode 1)
+
+;; word wrap
+(global-visual-line-mode t)
 
 ;; hide menu and tools bar
 (tool-bar-mode -1)
@@ -101,6 +105,7 @@
 ;; neotree
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
+(setq neo-window-width 30)
 
 ;; autocomplete
 (require 'auto-complete-config)
