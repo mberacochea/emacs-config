@@ -46,6 +46,9 @@
 ;; word wrap
 (global-visual-line-mode t)
 
+;; line numbers
+(global-linum-mode t)
+
 ;; hide menu and tools bar
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -89,6 +92,16 @@
 
 ;; js2-mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+
+;; jsdoc
+(require 'js-doc)
+(setq js-doc-mail-address "beracochea@fastmail.com"
+      js-doc-author (format "Martin Beracochea <%s>" js-doc-mail-address))
+
+(add-hook 'js2-mode-hook
+	  #'(lambda ()
+	      (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
+	      (define-key js2-mode-map "@" 'js-doc-insert-tag)))
 
 ;; store back up files on the temp directory
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
