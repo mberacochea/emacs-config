@@ -25,6 +25,7 @@
                       auto-complete
 		      editorconfig
 		      monokai-theme
+		      rust-mode
                       ))
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -41,6 +42,12 @@
 
 ;; delete selected text on write
 (delete-selection-mode 1)
+
+;; word wrap
+(global-visual-line-mode t)
+
+;; line numbers
+(global-linum-mode t)
 
 ;; hide menu and tools bar
 (tool-bar-mode -1)
@@ -93,6 +100,16 @@
 ;; js2-mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
+;; jsdoc
+(require 'js-doc)
+(setq js-doc-mail-address "beracochea@fastmail.com"
+      js-doc-author (format "Martin Beracochea <%s>" js-doc-mail-address))
+
+(add-hook 'js2-mode-hook
+	  #'(lambda ()
+	      (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
+	      (define-key js2-mode-map "@" 'js-doc-insert-tag)))
+
 ;; store back up files on the temp directory
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 (setq backup-by-copying t)
@@ -108,6 +125,7 @@
 ;; neotree
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
+(setq neo-window-width 30)
 
 ;; autocomplete
 (require 'auto-complete-config)
