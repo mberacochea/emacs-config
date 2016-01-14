@@ -69,6 +69,13 @@
 '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
      "^\*compilation" "^\*GTAGS" "^session\.*" "^\*"))
 
+;; C/C++
+(defun my-c-mode-config ()
+  (setq tab-width        4
+        c-basic-offset   4))
+
+(add-hook 'c-mode-hook 'my-c-mode-config)
+
 ;; orgmode
 (setq org-startup-indented t)
 (setq org-hide-leading-stars t)
