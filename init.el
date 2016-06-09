@@ -7,24 +7,17 @@
   (normal-top-level-add-subdirs-to-load-path))
 
 ;; packages
-;; Marmalade packages
-(require 'package)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
-
-;; MELPA packages
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(when (< emacs-major-version 24)
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 
 ;; install packages if not installed
 (package-initialize)
 (defvar my-packages '(
                       flycheck
                       auto-complete
-		      editorconfig
-		      monokai-theme
+					  editorconfig
+					  monokai-theme
                       ))
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -97,6 +90,16 @@
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 (setq scss-compile-at-save nil)
 
+;; markdown
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . flyspell-mode))
+(custom-set-variables
+ '(markdown-command "/usr/bin/pandoc"))
+
 ;; neotree
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
@@ -117,3 +120,17 @@
   (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
   (setq edconf-exec-path "/usr/local/bin/editorconfig") ;; editor config exec
   )
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(c-basic-offset 4)
+ '(org-export-backends (quote (ascii html md odt)))
+ '(tab-width 4))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
