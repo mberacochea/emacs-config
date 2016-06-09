@@ -16,8 +16,8 @@
 (defvar my-packages '(
                       flycheck
                       auto-complete
-					  editorconfig
-					  monokai-theme
+		      editorconfig
+		      monokai-theme
                       ))
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -25,9 +25,6 @@
 
 ;; hide init
 (setq inhibit-startup-message t)
-
-;; themes
-; (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/emacs-color-theme-solarized")
 
 ;; theme solarized
 (load-theme 'monokai t)
@@ -37,6 +34,12 @@
 
 ;; delete selected text on write
 (delete-selection-mode 1)
+
+;; word wrap
+(global-visual-line-mode t)
+
+;; line numbers
+(global-linum-mode t)
 
 ;; hide menu and tools bar
 (tool-bar-mode -1)
@@ -50,8 +53,10 @@
 
 ;; ido mode
 (ido-mode 1)
+
 ;; display them one per line
 (setq ido-separator "\n")
+
 ;; display any item that contains the chars you typed
 (setq ido-enable-flex-matching t)
 
@@ -63,16 +68,22 @@
 '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
      "^\*compilation" "^\*GTAGS" "^session\.*" "^\*"))
 
+;; C/C++
+(defun my-c-mode-config ()
+  (setq tab-width        4
+        c-basic-offset   4))
+
+(add-hook 'c-mode-hook 'my-c-mode-config)
+
 ;; orgmode
 (setq org-startup-indented t)
 (setq org-hide-leading-stars t)
-
-;; web struff ;;
 
 ;; webmode
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
+
 ;; webmode identation
 (setq web-mode-markup-indent-offset 2)
 (setq web-mode-css-indent-offset 2)
@@ -81,8 +92,18 @@
 ;; js2-mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
+;; jsdoc
+(require 'js-doc)
+(setq js-doc-mail-address "beracochea@fastmail.com"
+      js-doc-author (format "Martin Beracochea <%s>" js-doc-mail-address))
+
+(add-hook 'js2-mode-hook
+	  #'(lambda ()
+	      (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
+	      (define-key js2-mode-map "@" 'js-doc-insert-tag)))
+
 ;; store back up files on the temp directory
-(setq backup-directory-alist `((".*" . ,"~/.emacs.d/backups")))
+(setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 (setq backup-by-copying t)
 
 ;; sass
@@ -100,9 +121,13 @@
 (custom-set-variables
  '(markdown-command "/usr/bin/pandoc"))
 
+;; git
+(require 'git)
+
 ;; neotree
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
+(setq neo-window-width 30)
 
 ;; autocomplete
 (require 'auto-complete-config)
@@ -119,6 +144,7 @@
   ;;(setq mac-function-modifier 'control)
   (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
   (setq edconf-exec-path "/usr/local/bin/editorconfig") ;; editor config exec
+  (setq ispell-program-name "/usr/local/Cellar/aspell/0.60.6.1/bin/aspell")
   )
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
