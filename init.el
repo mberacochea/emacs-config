@@ -1,3 +1,4 @@
+
 ;; load packages
 (let ((default-directory "~/.emacs.d/packages/"))
   (normal-top-level-add-subdirs-to-load-path))
@@ -16,8 +17,9 @@
 (defvar my-packages '(
                       flycheck
                       auto-complete
-		      editorconfig
-		      monokai-theme
+					  editorconfig
+					  monokai-theme
+					  magit
                       ))
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -121,8 +123,8 @@
 (custom-set-variables
  '(markdown-command "/usr/bin/pandoc"))
 
-;; git
-(require 'git)
+;; magit
+(global-set-key (kbd "C-x g") 'magit-status)
 
 ;; neotree
 (require 'neotree)
