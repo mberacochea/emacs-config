@@ -20,6 +20,8 @@
 					  editorconfig
 					  monokai-theme
 					  magit
+					  projectile
+					  flx-ido
                       ))
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -54,16 +56,22 @@
 (toggle-truncate-lines)
 
 ;; ido mode
+(require 'flx-ido)
 (ido-mode 1)
+(ido-everywhere 1)
+(flx-ido-mode 1)
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
 
 ;; display them one per line
 (setq ido-separator "\n")
 
-;; display any item that contains the chars you typed
-(setq ido-enable-flex-matching t)
-
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
+
+;; slime
+(setq inferior-lisp-program "/usr/local/bin/sbcl")
+(setq slime-contribs '(slime-fancy))
 
 ;; ignore
 (setq ido-ignore-buffers
