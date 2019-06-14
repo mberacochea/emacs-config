@@ -1,13 +1,6 @@
 
-;; load packages
-(let ((default-directory "~/.emacs.d/packages/"))
-  (normal-top-level-add-subdirs-to-load-path))
-
-;; elpa
-(let ((default-directory "~/.emacs.d/elpa/"))
-  (normal-top-level-add-subdirs-to-load-path))
-
 ;; packages
+(require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
@@ -15,14 +8,15 @@
 ;; install packages if not installed
 (package-initialize)
 (defvar my-packages '(
-                      flycheck
-                      auto-complete
-					  editorconfig
-					  monokai-theme
-					  magit
-					  projectile
-					  flx-ido
-                      ))
+              auto-complete
+		      editorconfig
+		      dracula-theme
+		      magit
+		      projectile
+		      web-mode
+		      js-doc
+			  neotree))
+
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
@@ -31,7 +25,7 @@
 (setq inhibit-startup-message t)
 
 ;; theme solarized
-(load-theme 'monokai t)
+(load-theme 'dracula t)
 
 ;; highlight current line
 (global-hl-line-mode +1)
@@ -55,35 +49,11 @@
 ;; truncate
 (toggle-truncate-lines)
 
-;; ido mode
-(require 'flx-ido)
-(ido-mode 1)
-(ido-everywhere 1)
-(flx-ido-mode 1)
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
-
 ;; display them one per line
 (setq ido-separator "\n")
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
-
-;; slime
-(setq inferior-lisp-program "/usr/local/bin/sbcl")
-(setq slime-contribs '(slime-fancy))
-
-;; ignore
-(setq ido-ignore-buffers
-'("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
-     "^\*compilation" "^\*GTAGS" "^session\.*" "^\*"))
-
-;; C/C++
-(defun my-c-mode-config ()
-  (setq tab-width        4
-        c-basic-offset   4))
-
-(add-hook 'c-mode-hook 'my-c-mode-config)
 
 ;; orgmode
 (setq org-startup-indented t)
@@ -113,6 +83,7 @@
 	      (define-key js2-mode-map "@" 'js-doc-insert-tag)))
 
 ;; store back up files on the temp directory
+;; TODO: is this working
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 (setq backup-by-copying t)
 
@@ -129,7 +100,17 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . flyspell-mode))
 (custom-set-variables
- '(markdown-command "/usr/bin/pandoc"))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(c-basic-offset 4)
+ '(markdown-command "/usr/bin/pandoc")
+ '(org-export-backends (quote (ascii html md odt)))
+ '(package-selected-packages
+   (quote
+	(projectile magit monokai-theme editorconfig auto-complete)))
+ '(tab-width 4))
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -156,14 +137,7 @@
   (setq edconf-exec-path "/usr/local/bin/editorconfig") ;; editor config exec
   (setq ispell-program-name "/usr/local/Cellar/aspell/0.60.6.1/bin/aspell")
   )
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(c-basic-offset 4)
- '(org-export-backends (quote (ascii html md odt)))
- '(tab-width 4))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
